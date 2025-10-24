@@ -39,7 +39,7 @@ class PoolWorker {
 
     // This prevents a problem where the worker stdio can be undefined
     // when the kernel hits the limit of open files.
-    // More info can be found on: https://github.com/webpack-contrib/thread-loader/issues/2
+    // More info can be found on: https://github.com/webpack/thread-loader/issues/2
     if (!this.worker.stdio) {
       throw new Error(
         `Failed to create the worker pool with workerId: ${workerId} and ${''}configuration: ${JSON.stringify(

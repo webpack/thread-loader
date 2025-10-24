@@ -149,10 +149,10 @@ If you're new here, please take a moment to review our contributing guidelines b
 [npm-url]: https://npmjs.com/package/thread-loader
 [node]: https://img.shields.io/node/v/thread-loader.svg
 [node-url]: https://nodejs.org
-[tests]: https://github.com/webpack-contrib/thread-loader/workflows/thread-loader/badge.svg
-[tests-url]: https://github.com/webpack-contrib/thread-loader/actions
-[cover]: https://codecov.io/gh/webpack-contrib/thread-loader/branch/master/graph/badge.svg
-[cover-url]: https://codecov.io/gh/webpack-contrib/thread-loader
+[tests]: https://github.com/webpack/thread-loader/workflows/thread-loader/badge.svg
+[tests-url]: https://github.com/webpack/thread-loader/actions
+[cover]: https://codecov.io/gh/webpack/thread-loader/branch/main/graph/badge.svg
+[cover-url]: https://codecov.io/gh/webpack/thread-loader
 [discussion]: https://img.shields.io/github/discussions/webpack/webpack
 [discussion-url]: https://github.com/webpack/webpack/discussions
 [size]: https://packagephobia.now.sh/badge?p=thread-loader
