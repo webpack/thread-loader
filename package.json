@@ -3,10 +3,10 @@
   "version": "4.0.4",
   "description": "Runs the following loaders in a worker pool",
   "license": "MIT",
-  "repository": "webpack-contrib/thread-loader",
+  "repository": "webpack/thread-loader",
   "author": "Tobias Koppers @sokra",
-  "homepage": "https://github.com/webpack-contrib/thread-loader",
-  "bugs": "https://github.com/webpack-contrib/thread-loader/issues",
+  "homepage": "https://github.com/webpack/thread-loader",
+  "bugs": "https://github.com/webpack/thread-loader/issues",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/webpack"
@@ -20,7 +20,7 @@
     "clean": "del-cli dist",
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production babel src -d dist --copy-files",
-    "commitlint": "commitlint --from=master",
+    "commitlint": "commitlint --from=main",
     "security": "npm audit --production",
     "lint:prettier": "prettier --cache --list-different .",
     "lint:js": "eslint --cache .",
