@@ -5,39 +5,9 @@ import fixtureConfig from '../fixtures/error-project/webpack.config';
 test('WorkerError integration: wraps and formats worker error', (done) => {
   const config = fixtureConfig({ threads: 1 });
 
-  const compiler = webpack(config);
-
-  compiler.run((err, stats) => {
-    const finish = (cbErr) => {
-      compiler.close(() => {
-        try {
-          // Ensure any worker pools created by thread-loader are terminated so
-          // Jest can exit cleanly. Match the options used in the fixture.
-          // Require the runtime workerPools from dist and terminate the pool.
-          // eslint-disable-next-line global-require
-          const { getPool } = require('../../dist/workerPools');
-          const pool = getPool({ workers: 1, workerParallelJobs: 2, poolTimeout: 2000 });
-          if (pool && typeof pool.terminate === 'function') {
-            pool.terminate();
-          }
-        } catch (e) {
-          // ignore cleanup errors
-        }
-
-        // Allow a short grace period for child-process pipes and timeouts
-        // to unwind before finishing the test so Jest can exit cleanly.
-        setTimeout(() => {
-          if (cbErr) {
-            done(cbErr);
-          } else {
-            done();
-          }
-        }, 50);
-      });
-    };
-
+  webpack(config, (err, stats) => {
     if (err) {
-      finish(err);
+      done(err);
       return;
     }
 
@@ -59,9 +29,9 @@ test('WorkerError integration: wraps and formats worker error', (done) => {
       // Expect combined stack trace contains at least one 'at' line
       expect(stack).toMatch(/\n\s*at\s+/);
 
-      finish();
+      done();
     } catch (e) {
-      finish(e);
+      done(e);
     }
   });
 }, 30000);

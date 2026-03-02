@@ -11,7 +11,7 @@ const buildStackTrace = (err, workerStack = '', workerId = 'unknown') => {
   // Compute the difference between the worker's stack and the error's stack
   const extraWorkerLines = workerStackLines.slice(
     0,
-    Math.max(0, workerStackLines.length - originStackLines.length)
+    Math.max(0, workerStackLines.length - originStackLines.length),
   );
 
   // Build a readable, merged stack trace
@@ -19,7 +19,7 @@ const buildStackTrace = (err, workerStack = '', workerId = 'unknown') => {
     `Thread Loader (Worker ${workerId})`,
     err?.message || 'Unknown error',
     extraWorkerLines.join('\n'),
-    ...originStackLines
+    ...originStackLines,
   ]
     .filter(Boolean)
     .join('\n');
