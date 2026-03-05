@@ -2,9 +2,9 @@ import WorkerError from '../src/WorkerError';
 
 describe('WorkerError', () => {
   test('merges worker and origin stacks and includes workerId', () => {
-    const originStack = 'Error: boom\n    at originFile.js:10:5\n    at originFunc (origin.js:11:6)';
-    const workerStack =
-      'Error: boom\n    at workerFn (worker.js:2:3)\n    at workerInner (worker.js:3:4)\n    at originFile.js:10:5\n    at originFunc (origin.js:11:6)';
+    const originStack =
+      'Error: boom\n    at originFile.js:10:5\n    at originFunc (origin.js:11:6)';
+    // workerStack intentionally omitted — not needed for this unit
 
     const err = { message: 'boom', name: 'Error', stack: originStack };
 
