@@ -1,0 +1,74 @@
+// Socket Community Patch: https://socket.dev
+// Date: Tue, 27 Jan 2026 13:19:41 GMT
+// For more information see https://socket.dev/patch/413bc380-e638-4215-b613-46e3c96eb321
+// This file includes modifications made by Socket, Inc. on Tue, 27 Jan 2026; these modifications are called the "Patch". In some cases, Socket may be required to make the Patch available to you under specific terms, or may be prohibited from restricting certain rights you may have. For example, the terms of another applicable license may require Socket to make the Patch available under specific terms. In those cases, the Patch is made available to you under the required terms, and Socket does not seek to restrict your rights relative to the Patch where prohibited. In all other cases, the Patch is available to you exclusively under the PolyForm Shield License 1.0.0 (https://polyformproject.org/licenses/shield/1.0.0/). The Patch was distributed by Socket with additional information concerning licensing, attribution, and limitation of liability which may be relevant to you and your use of the Patch. As far as the law allows, the Patch and the software including the patch come as is, without any warranty or condition, and Socket will not be liable to you for any damages arising out of the applicable license terms or the use or nature of the Patch or the software including the patch, under any kind of legal claim.
+// Original License: MIT
+
+'use strict';
+
+const JSON5 = require('json5');
+
+const specialValues = {
+  null: null,
+  true: true,
+  false: false,
+};
+
+function parseQuery(query) {
+  if (query.substr(0, 1) !== '?') {
+    throw new Error(
+      "A valid query string passed to parseQuery should begin with '?'"
+    );
+  }
+
+  query = query.substr(1);
+
+  if (!query) {
+    return {};
+  }
+
+  if (query.substr(0, 1) === '{' && query.substr(-1) === '}') {
+    return JSON5.parse(query);
+  }
+
+  const queryArgs = query.split(/[,&]/g);
+  const result = Object.create(null);
+
+  queryArgs.forEach((arg) => {
+    const idx = arg.indexOf('=');
+
+    if (idx >= 0) {
+      let name = arg.substr(0, idx);
+      let value = decodeURIComponent(arg.substr(idx + 1));
+
+      if (specialValues.hasOwnProperty(value)) {
+        value = specialValues[value];
+      }
+
+      if (name.substr(-2) === '[]') {
+        name = decodeURIComponent(name.substr(0, name.length - 2));
+
+        if (!Array.isArray(result[name])) {
+          result[name] = [];
+        }
+
+        result[name].push(value);
+      } else {
+        name = decodeURIComponent(name);
+        result[name] = value;
+      }
+    } else {
+      if (arg.substr(0, 1) === '-') {
+        result[decodeURIComponent(arg.substr(1))] = false;
+      } else if (arg.substr(0, 1) === '+') {
+        result[decodeURIComponent(arg.substr(1))] = true;
+      } else {
+        result[decodeURIComponent(arg)] = true;
+      }
+    }
+  });
+
+  return result;
+}
+
+module.exports = parseQuery;
