@@ -210,7 +210,7 @@ const queue = asyncQueue(({ id, data }, taskCallback) => {
             }
           },
           // Not an arrow function because it uses this
-          getOptions(schema) {
+          getOptions(schema, check) {
             // loaders, loaderIndex will be defined by runLoaders
             const loader = this.loaders[this.loaderIndex];
 
@@ -240,7 +240,10 @@ const queue = asyncQueue(({ id, data }, taskCallback) => {
               options = {};
             }
 
-            if (schema) {
+            // A precompiled check that passes skips the schema, as webpack's own
+            // `getOptions` does; one that fails still gets the full validation
+            // and its error messages.
+            if (schema && !(typeof check === 'function' && check(options))) {
               let name = 'Loader';
               let baseDataPath = 'options';
               let match;
